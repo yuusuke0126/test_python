@@ -38,15 +38,18 @@
 
 import rospy
 from std_msgs.msg import String
+from std_msgs.msg import Float32
 
 def talker():
-    pub = rospy.Publisher('chatter', String, queue_size=10)
+    pub = rospy.Publisher('chatter', Float32, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(3) # 10hz
+    hello_f = float(1.1)
     while not rospy.is_shutdown():
-        hello_str = "hello world %s" % rospy.get_time()
+        hello_f *= 1.01
+        hello_str = "hello world %f" % hello_f
         rospy.loginfo(hello_str)
-        pub.publish(hello_str)
+        pub.publish(hello_f)
         rate.sleep()
 
 if __name__ == '__main__':
