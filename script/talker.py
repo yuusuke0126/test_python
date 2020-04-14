@@ -43,11 +43,14 @@ from std_msgs.msg import Float32
 def talker():
     pub = rospy.Publisher('chatter', Float32, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(3) # 10hz
+    rate = rospy.Rate(3) # 3hz
     hello_f = float(1.1)
+    last_time = rospy.Time.now()
     while not rospy.is_shutdown():
+        current_time = rospy.Time.now()
+        duration = current_time - last_time
         hello_f *= 1.01
-        hello_str = "hello world %f" % hello_f
+        hello_str = "hello world %1.2f" % duration.to_sec()
         rospy.loginfo(hello_str)
         pub.publish(hello_f)
         rate.sleep()
